@@ -747,12 +747,240 @@
                 <div class="countdown-item">
                     <span class="countdown-num">${h}</span>
                     <span class="countdown-label">Giờ</span>
+            padding: 2rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        /* Snowflakes */
+        .snowflake {
+            position: fixed;
+            top: -20px;
+            color: #fff;
+            font-size: 1em;
+            font-family: Arial;
+            text-shadow: 0 0 5px #000;
+            z-index: 9999;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 3rem;
+            }
+
+            .countdown {
+                gap: 1rem;
+            }
+
+            .countdown-item {
+                min-width: 80px;
+                padding: 1rem;
+            }
+
+            .countdown-num {
+                font-size: 2rem;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Effects -->
+    <div class="noise-overlay"></div>
+    <div class="lights">
+        <!-- JS will populate lights -->
+    </div>
+
+    <nav>
+        <div class="brand">
+            <div class="logo">🎄</div>
+            <div class="brand-text">
+                <h1>Giáng Sinh An Lành</h1>
+                <p>Mùa của yêu thương</p>
+            </div>
+        </div>
+        <ul>
+            <li><a href="#">Trang Chủ</a></li>
+            <li><a href="#">Lời Chúc</a></li>
+            <li><a href="#">Gửi Thư</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1 class="title">Merry Christmas<br>& Happy New Year</h1>
+        <p class="subtitle">Chúc bạn một mùa lễ hội ấm áp, tràn ngập niềm vui và hạnh phúc bên những người thân yêu ✨
+        </p>
+
+        <div class="countdown" id="countdown">
+            <!-- JS will populate this -->
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2>✨ Ý Nghĩa Mùa Lễ Hội</h2>
+            <p>Giáng Sinh không chỉ là ngày lễ của những món quà, mà là dịp để chúng ta sống chậm lại, trao đi yêu
+                thương và sự quan tâm. Hãy để những ánh đèn lung linh sưởi ấm trái tim bạn trong mùa đông này.</p>
+        </section>
+
+        <section class="card">
+            <h2>🎁 Gửi Lời Chúc Giáng Sinh</h2>
+            <p>Gửi những lời chúc ấm áp nhất đến hộp thư của chúng tôi.</p>
+
+            <form id="wishForm" class="wish-form">
+                <div class="form-group">
+                    <label for="from_name">Tên của bạn</label>
+                    <input type="text" id="from_name" name="from_name" class="form-control"
+                        placeholder="Nhập tên của bạn..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Lời chúc</label>
+                    <textarea id="message" name="message" class="form-control"
+                        placeholder="Viết lời chúc của bạn ở đây..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">✨ Gửi Lời Chúc ✨</button>
+                <div id="status" class="status-message"></div>
+            </form>
+        </section>
+
+        <!-- Events Section -->
+        <section class="card full-width">
+            <h2>🎉 Sự Kiện Nổi Bật</h2>
+            <div class="grid-gallery">
+                <div class="gallery-item">
+                    <img src="event_tree_lighting.png" alt="Thắp sáng cây thông">
+                    <div class="overlay">
+                        <h3>Thắp Sáng Cây Thông</h3>
+                        <p>24/12 - Quảng trường</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="event_santa_meet.png" alt="Gặp gỡ Ông già Noel">
+                    <div class="overlay">
+                        <h3>Gặp Ông Già Noel</h3>
+                        <p>25/12 - Công viên</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="event_christmas_market.png" alt="Chợ Giáng Sinh">
+                    <div class="overlay">
+                        <h3>Chợ Giáng Sinh</h3>
+                        <p>Phố đi bộ</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="event_concert.png" alt="Hòa nhạc">
+                    <div class="overlay">
+                        <h3>Đêm Nhạc Hội</h3>
+                        <p>Nhà hát lớn</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Christmas Page. Made with ❤️</p>
+    </footer>
+
+    <script>
+        // Create Lights
+        const lightsContainer = document.querySelector('.lights');
+        for (let i = 0; i < 30; i++) {
+            const light = document.createElement('div');
+            light.className = 'light';
+            lightsContainer.appendChild(light);
+        }
+
+        // Countdown Logic
+        function updateCountdown() {
+            const now = new Date();
+            let year = now.getFullYear();
+            let target = new Date(year, 11, 25); // Dec 25
+
+            if (now > target) target.setFullYear(year + 1);
+
+            const diff = target - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdown').innerHTML = '<div class="title" style="font-size: 3rem">Giáng Sinh An Lành! 🎅</div>';
+                return;
+            }
+
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / 1000 / 60) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('countdown').innerHTML = `
+                < div class="countdown-item" >
+                    <span class="countdown-num">${d}</span>
+                    <span class="countdown-label">Ngày</span>
+                </div >
+                <div class="countdown-item">
+                    <span class="countdown-num">${h}</span>
+                    <span class="countdown-label">Giờ</span>
                 </div>
                 <div class="countdown-item">
                     <span class="countdown-num">${m}</span>
                     <span class="countdown-label">Phút</span>
                 </div>
                 <div class="countdown-item">
+                    <span class="countdown-num">${s}</span>
+                    <span class="countdown-label">Giây</span>
+                </div>
+            `;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Snow Effect
+        function createSnow() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = ['❄', '❅', '❆', '✨'][Math.floor(Math.random() * 4)];
+
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+            snowflake.style.fontSize = (Math.random() * 20 + 10) + 'px';
+
+            const duration = Math.random() * 5 + 5;
+            snowflake.style.animationDuration = duration + 's';
+
+            document.body.appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.remove();
+            }, duration * 1000);
+        }
+
+        setInterval(createSnow, 200);
+
+        // EmailJS Handling
+        document.getElementById('wishForm').addEventListener('submit', function (event) {
             event.preventDefault();
 
             const btn = this.querySelector('.btn-submit');
